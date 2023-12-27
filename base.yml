@@ -7,6 +7,7 @@ services:
     volumes:
       - "${MOODLE_DOCKER_WWWROOT}:/var/www/html"
       - "${ASSETDIR}/web/apache2_faildumps.conf:/etc/apache2/conf-enabled/apache2_faildumps.conf"
+      - "${MOODLE_DOCKER_MOODLEDATA}:/var/www/moodledata"
     environment:
       MOODLE_DOCKER_DBNAME: moodle
       MOODLE_DOCKER_DBUSER: moodle
@@ -22,3 +23,11 @@ services:
     image: "selenium/standalone-firefox${MOODLE_DOCKER_SELENIUM_SUFFIX:-}:${MOODLE_DOCKER_BROWSER_TAG}"
     volumes:
       - "${MOODLE_DOCKER_WWWROOT}:/var/www/html:ro"
+  db:
+    image: "postgres:13"
+    environment:
+      POSTGRES_DB: "moodle"
+      POSTGRES_USER: "moodle"
+      POSTGRES_PASSWORD: "moodle"
+    volumes:
+      - "${MOODLE_DOCKER_DB_VOLUME}:/var/lib/postgresql/data"

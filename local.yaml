@@ -1,0 +1,23 @@
+version: "2"
+services:
+  webserver:
+    image: moodlehq/moodle-php-apache:8.1
+    environment:
+      MOODLE_DOCKER_DB: "pgsql"
+      MOODLE_DOCKER_DB_TYPE: "pgsql"
+      MOODLE_DOCKER_DB_HOST: "db"
+      MOODLE_DOCKER_DB_NAME: "moodle"
+      MOODLE_DOCKER_DB_USER: "moodle"
+      MOODLE_DOCKER_DB_PASS: "moodle"
+      MOODLE_DOCKER_WWWROOT: "/var/www/html/moodle"
+    volumes:
+      - "${MOODLE_DOCKER_WWWROOT}:/var/www/html/moodle"
+    ports:
+      - "0:80"  # Dynamic port assignment
+
+  db:
+    image: "postgres:13"
+    environment:
+      POSTGRES_DB: "moodle"
+      POSTGRES_USER: "moodle"
+      POSTGRES_PASSWORD: "moodle"
